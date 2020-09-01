@@ -13,9 +13,43 @@ public class Struct {
     }
 
     public void createRoot() {
-        this.name = "root";
+        this.name = "/";
         this.path = "/";
         this.type = "folder";
+    }
+
+    public void addAtt(String name, Struct root, Struct newData) {
+
+        Struct current;
+
+        newData.setName(name);
+
+        if (root.getPath().equals("/")) {
+            newData.setPath(root.getPath() + name);
+        } else {
+            newData.setPath(root.getPath() + "/" + name);
+        }
+
+        if (root.getChild() == null) {
+            root.setChild(newData);
+        } else {
+            current = root.getChild();
+            if (current.getNext() == null) {
+                if (current.getName().compareTo(name) > 0) {
+                    // root -> *a -> b -> null
+                    root.setChild(newData);
+                    newData.setNext(current);
+                } else {
+                    // root -> a -> *b -> null
+                    current.setNext(newData);
+                }
+            } else {
+                current = Functions.positionSub(name, current);
+                // a -> b *c -> d -> null
+                newData.setNext(current.getNext());
+                current.setNext(newData);
+            }
+        }
     }
 
     public String getName() {

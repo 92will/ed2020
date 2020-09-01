@@ -2,45 +2,66 @@ package com.company;
 
 public class Functions {
 
-    public static Struct position(String name, Struct currentFolder) {
+    // encontra a posiçao no mesmo nivel
+    public static Struct positionSub(String name, Struct folder) {
+
         // a -> current:b -> new:c -> next:d -> null
-        while (currentFolder.getNext() != null && currentFolder.getNext().getName().compareTo(name) < 0) {
-            currentFolder = currentFolder.getNext();
+        while (folder.getNext() != null && folder.getNext().getName().compareTo(name) < 0) {
+            folder = folder.getNext();
         }
-        return currentFolder;
+
+        return folder;
     }
 
-    public static void createData(String name, String opt, Struct rootFolder) {
+    // encontra a posicao do path
+    public static Struct positionPath(String path, Struct folder) {
+
+        boolean loop = true;
+
+        while (loop == true) {
+            if (path.equals(folder.getPath())) { // path:/a/b == folder.path:/a/b
+                loop = false;
+            } else {
+                if (path.contains(folder.getPath())) { // path:/a/b contem folder.path:/a
+                    if (folder.getChild() != null) {
+                        folder = folder.getChild();
+                    }
+                } else {
+                    if (folder.getNext() != null) {
+                        folder = folder.getNext();
+                    } else {
+                        folder = null;
+                        loop = false;
+                    }
+                }
+            }
+        }
+
+        return folder;
+    }
+
+    // add alguns atributos e direciona os ponteiros
+
+
+    public static void createData(String type, String path, String name, Struct rootFolder) {
+
         Struct newData = new Struct();
-        newData.setName(name);
-        newData.setPath(rootFolder.getPath() + name);
-        if (opt.equals("mkdir")) {
+
+        if (type.equals("mkdir")) {
             newData.setType("folder");
         } else {
             newData.setType("file");
         }
 
-        Struct current;
-
-        if (rootFolder.getChild() == null) {
-            rootFolder.setChild(newData);
-        } else {
-            current = rootFolder.getChild();
-            if (current.getNext() == null) {
-                if (current.getName().compareTo(name) > 0) {
-                    // root -> *a -> b -> null
-                    rootFolder.setChild(newData);
-                    newData.setNext(current);
-                } else {
-                    // root -> a -> *b -> null
-                    current.setNext(newData);
-                }
+        if (!path.equals("noPath")) {
+            rootFolder = positionPath(path, rootFolder);
+            if (rootFolder != null && rootFolder.getType().equals("folder")) {
+                newData.addAtt(name, rootFolder, newData);
             } else {
-                current = position(name, current);
-                // a -> b *c -> d -> null
-                newData.setNext(current.getNext());
-                current.setNext(newData);
+                System.out.println("Path esta errado ou nao e uma pasta.");
             }
+        } else {
+            newData.addAtt(name, rootFolder, newData);
         }
     }
 
@@ -62,7 +83,7 @@ public class Functions {
         if (current.getChild() != null) {
             current = current.getChild();
             while (current != null) {
-                System.out.print(current.getName() + ":" + current.getType() + " ");
+                System.out.print(current.getName() + ":" + current.getType() + ":" + current.getPath() + " ");
                 current = current.getNext();
             }
             System.out.println("");

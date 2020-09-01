@@ -12,6 +12,7 @@ public class Main {
 
         boolean loop = true;
         String optLine; // entrada passada pelo usuario
+        String auxOpt = "";
         String[] opt;
 
         // estruturas de teste
@@ -30,27 +31,28 @@ public class Main {
 
             // opt[0] sempre e o comando escolhido
 
+            if(opt[0].equals("mkdir") || opt[0].equals("touch")) {
+                auxOpt = opt[0];
+                opt[0] = "create";
+            }
+
             switch (opt[0]) {
-                case "mkdir":
+                case "create":
                     switch (opt.length) {
                         case 2:
-                            Functions.createData(opt[1], opt[0], current);
+                            // dirname:1
+                            Functions.createData(auxOpt, "noPath", opt[1], current);
                             break;
                         case 3:
+                            // [path ]:1 dirname:2
+                            Functions.createData(auxOpt, opt[1], opt[2], current);
                             break;
                         default:
-                            System.out.println("Comando incorreto. Tente \"mkdir [path ] dirname\"");
-                    }
-                    break;
-                case "touch":
-                    switch (opt.length) {
-                        case 2:
-                            Functions.createData(opt[1], opt[0], current);
-                            break;
-                        case 3:
-                            break;
-                        default:
-                            System.out.println("Comando incorreto. Tente \"touch [path ] filename\"");
+                            if (auxOpt.equals("mkdir")){
+                                System.out.println("Comando incorreto. Tente \"mkdir [path ] dirname\"");
+                            } else {
+                                System.out.println("Comando incorreto. Tente \"touch [path ] filename\"");
+                            }
                     }
                     break;
                 case "ls":
