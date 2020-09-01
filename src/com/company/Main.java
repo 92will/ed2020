@@ -31,24 +31,19 @@ public class Main {
 
             // opt[0] sempre e o comando escolhido
 
-            if(opt[0].equals("mkdir") || opt[0].equals("touch")) {
-                auxOpt = opt[0];
-                opt[0] = "create";
-            }
-
             switch (opt[0]) {
-                case "create":
+                case "mkdir", "touch":
                     switch (opt.length) {
                         case 2:
                             // dirname:1
-                            Functions.createData(auxOpt, "noPath", opt[1], current);
+                            Functions.createData(opt[0], "noPath", opt[1], current);
                             break;
                         case 3:
                             // [path ]:1 dirname:2
-                            Functions.createData(auxOpt, opt[1], opt[2], current);
+                            Functions.createData(opt[0], opt[1], opt[2], current);
                             break;
                         default:
-                            if (auxOpt.equals("mkdir")){
+                            if (opt[0].equals("mkdir")){
                                 System.out.println("Comando incorreto. Tente \"mkdir [path ] dirname\"");
                             } else {
                                 System.out.println("Comando incorreto. Tente \"touch [path ] filename\"");
