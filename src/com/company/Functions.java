@@ -40,9 +40,6 @@ public class Functions {
         return folder;
     }
 
-    // add alguns atributos e direciona os ponteiros
-
-
     public static void createData(String type, String path, String name, Struct rootFolder) {
 
         Struct newData = new Struct();
@@ -65,6 +62,60 @@ public class Functions {
         }
     }
 
+    // inicio das funçoes de "ls"
+
+    // imprime *folder -> next -> next ate chegar em null
+    public static void printFolders(Struct folder) {
+        while (folder != null) {
+            System.out.print(folder.getName() + ":" + folder.getType() + ":" + folder.getPath() + " ");
+            folder = folder.getNext();
+        }
+        System.out.println("");
+    }
+
+    // imprime subpastas de uma pasta
+    public static void ls(Struct folder) {
+        if (folder.getChild() != null) {
+            Functions.printFolders(folder.getChild());
+        } else {
+            System.out.print("");
+        }
+    }
+
+    // imprime recursivamente subpastas de uma pasta
+    public static void lsR(Struct folder) {
+        if (folder.getChild() != null) { // folder
+            Functions.ls(folder); // a -> b -> c
+            folder = folder.getChild(); // folder = a
+            lsR(folder);
+        } else if (folder.getNext() != null) {
+            folder = folder.getNext();
+            lsR(folder);
+        } else {
+            System.out.print("");
+        }
+    }
+
+    public static void lsPath(String path, Struct folder) {
+        folder = Functions.positionPath(path, folder);
+        if (folder == null) {
+            System.out.println("Path nao encontrado.");
+        } else {
+            Functions.ls(folder);
+        }
+    }
+
+    public static void lsRPath(String path, Struct folder) {
+        folder = Functions.positionPath(path, folder);
+        if (folder == null) {
+            System.out.println("Path nao encontrado.");
+        } else {
+            Functions.lsR(folder);
+        }
+    }
+
+    // inicio das funçoes de search
+
     public static void search(String name, Struct current) {
         if (current.getChild() != null) {
             current = current.getChild();
@@ -76,19 +127,6 @@ public class Functions {
             }
         } else {
             System.out.println("Nada encontrado.");
-        }
-    }
-
-    public static void ls(Struct current) {
-        if (current.getChild() != null) {
-            current = current.getChild();
-            while (current != null) {
-                System.out.print(current.getName() + ":" + current.getType() + ":" + current.getPath() + " ");
-                current = current.getNext();
-            }
-            System.out.println("");
-        } else {
-            System.out.print("");
         }
     }
 }

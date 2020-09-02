@@ -18,6 +18,7 @@ public class Struct {
         this.type = "folder";
     }
 
+    // add alguns atributos e direciona os ponteiros
     public void addAtt(String name, Struct root, Struct newData) {
 
         Struct current;

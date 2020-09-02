@@ -12,7 +12,6 @@ public class Main {
 
         boolean loop = true;
         String optLine; // entrada passada pelo usuario
-        String auxOpt = "";
         String[] opt;
 
         // estruturas de teste
@@ -53,11 +52,24 @@ public class Main {
                 case "ls":
                     switch (opt.length) {
                         case 1:
+                            // ls
                             Functions.ls(current);
                             break;
                         case 2:
+                            // ls [-R ]:1 ou ls [path ]:1
+                            if (opt[1].equals("-R")) {
+                                Functions.lsR(current);
+                            } else {
+                                Functions.lsPath(opt[1], current);
+                            }
                             break;
                         case 3:
+                            // ls:0 [-R ]:1 [path ]:2
+                            if (opt[1].equals("-R")) {
+                                Functions.lsRPath(opt[2], current);
+                            } else {
+                                System.out.println("Comando incorreto. Tente \"ls [-R ] [path ]\"");
+                            }
                             break;
                         default:
                             System.out.println("Comando incorreto. Tente \"ls [-R ] [path ]\"");
