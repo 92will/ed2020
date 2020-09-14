@@ -16,10 +16,8 @@ public class Main {
 
         // estruturas de teste
 
-        Struct root = new Struct();
-        root.createRoot();
-
-        Struct current = root;
+        Struct current = new Struct();
+        current.createRoot();
 
         // loop de execuçao
 
@@ -35,11 +33,11 @@ public class Main {
                     switch (opt.length) {
                         case 2:
                             // dirname:1
-                            Functions.createData(opt[0], "noPath", opt[1], current);
+                            current.createData(opt[0], "noPath", opt[1], current);
                             break;
                         case 3:
                             // [path ]:1 dirname:2
-                            Functions.createData(opt[0], opt[1], opt[2], current);
+                            current.createData(opt[0], opt[1], opt[2], current);
                             break;
                         default:
                             if (opt[0].equals("mkdir")){
@@ -81,6 +79,12 @@ public class Main {
                             Functions.search(opt[1], current);
                             break;
                         case 3:
+                            // search [-R ]:1 searchkey:2 ou search [path ]:1 searchkey:2
+                            if (opt[1].equals("-R")) {
+                                ;
+                            } else {
+                                Functions.searchPath(opt[2], opt[1], current);
+                            }
                             break;
                         case 4:
                             break;
