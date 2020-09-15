@@ -2,20 +2,7 @@ package com.company;
 
 public class Functions {
 
-    // funções gerais
-
-    // imprime o nome do diretório que contém a chave se houver, caso contrário retorna 0
-    public static int printFolder(String key, Struct folder) {
-
-        int i = 0;
-
-        if (folder.getName().contains(key)) {
-            System.out.println(folder.getPath());
-            i += 1;
-        }
-
-        return i;
-    }
+    // inicio das funçoes de "ls"
 
     // imprime *folder -> next -> next ate chegar em null
     public static void printFolders(Struct folder) {
@@ -24,10 +11,8 @@ public class Functions {
             System.out.print(folder.getName() + ":" + folder.getType() + ":" + folder.getPath() + " ");
             folder = folder.getNext();
         }
-        System.out.println("");
+        System.out.println();
     }
-
-    // inicio das funçoes de "ls"
 
     // imprime subpastas de uma pasta
     public static void ls(Struct folder) {
@@ -76,26 +61,63 @@ public class Functions {
 
     // inicio das funçoes de search
 
-    public static void search(String key, Struct current) {
+    // imprime o nome do diretório que contém a chave se houver, caso contrário retorna 0
+    public static void printFound(String key, Struct folder) {
 
-        current = current.getChild();
-        int res = 0;
-        while (current != null) {
-            res += printFolder(key, current);
-            current = current.getNext();
+        boolean res = false;
+
+        while (folder != null) {
+            if (folder.getName().contains(key)) {
+                System.out.print(folder.getPath() + "  ");
+                res = true;
+            }
+            folder = folder.getNext();
         }
-        if (res == 0) System.out.println("Nada encontrado");
+        if (res) System.out.println();
     }
 
-    public static void searchR(String name, Struct folder) {}
+    public static void search(String key, Struct folder) {
 
-    public static void searchPath(String name, String path, Struct current) {
-
-        current = current.findFolderByPath(path, current);
-        search(name, current);
+        if (folder.getChild() != null) {
+            printFound(key, folder.getChild());
+        } else {
+            System.out.println("Nada encontrado no diretorio " + folder.getName());
+        }
     }
 
-    public static void searchRPath(String name, Struct current) {}
+    public static void searchR(String key, Struct folder) {
+
+        if (folder.getChild() != null) { // folder
+            search(key, folder); // a -> b -> c
+            folder = folder.getChild(); // folder = a
+            searchR(key, folder);
+        } else if (folder.getNext() != null) {
+            folder = folder.getNext();
+            searchR(key, folder);
+        } else {
+            System.out.print("");
+        }
+    }
+
+    public static void searchPath(String key, String path, Struct folder) {
+
+        folder = folder.findFolderByPath(path, folder);
+        if (folder == null) {
+            System.out.println("Path nao encontrado.");
+        } else {
+            search(key, folder);
+        }
+    }
+
+    public static void searchRPath(String key, String path, Struct folder) {
+
+        folder = folder.findFolderByPath(path, folder);
+        if (folder == null) {
+            System.out.println("Path nao encontrado.");
+        } else {
+            searchR(key, folder);
+        }
+    }
 
 
 }

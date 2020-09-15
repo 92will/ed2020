@@ -76,17 +76,24 @@ public class Main {
                 case "search":
                     switch (opt.length) {
                         case 2:
+                            // search searchkey:1
                             Functions.search(opt[1], current);
                             break;
                         case 3:
                             // search [-R ]:1 searchkey:2 ou search [path ]:1 searchkey:2
                             if (opt[1].equals("-R")) {
-                                ;
+                                Functions.searchR(opt[2], current);
                             } else {
                                 Functions.searchPath(opt[2], opt[1], current);
                             }
                             break;
                         case 4:
+                            // search [-R ]:1 [path ]:2 searchkey:3
+                            if (opt[1].equals("-R")) {
+                                Functions.searchRPath(opt[3], opt[2], current);
+                            } else {
+                                System.out.println("Comando incorreto. Tente \"ls [-R ] [path ]\"");
+                            }
                             break;
                         default:
                             System.out.println("Comando incorreto. Tente \"search [-R ] [path ] searchkey\"");

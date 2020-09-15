@@ -76,6 +76,10 @@ public class Struct {
         return folder;
     }
 
+    public boolean checkEqualName(String name, Struct folder) {
+        return folder.next.name.equals(name); // retorna true
+    }
+
     // add alguns atributos e direciona os ponteiros
     public void setAtt(String name, Struct root, Struct newData) {
 
