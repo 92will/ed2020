@@ -4,6 +4,7 @@ public class Struct {
     private String name;
     private String path;
     private String type;
+    private int level;
     private Struct child;
     private Struct next;
 
@@ -24,6 +25,10 @@ public class Struct {
         return type;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public Struct getChild() {
         return child;
     }
@@ -38,6 +43,7 @@ public class Struct {
         this.name = "/";
         this.path = "/";
         this.type = "folder";
+        this.level = 0;
     }
 
     // encontra a ordem do elemento -> a < b
@@ -76,42 +82,72 @@ public class Struct {
         return folder;
     }
 
-    public boolean checkEqualName(String name, Struct folder) {
-        return folder.next.name.equals(name); // retorna true
+    public boolean checkValidName(String str) { // verifica se o nome é válido
+        return str.length() <= 50 && str.matches("(?i)\\D");
     }
 
-    // add alguns atributos e direciona os ponteiros
+    public boolean checkEqualName(String name, Struct folder) { // verifica igualdade de nomes
+
+        if (folder.next == null) {
+            return folder.name.equals(name);
+        } else {
+            return folder.name.equals(name) || folder.next.name.equals(name);
+        }
+    }
+
+    // coloca alguns atributos e direciona os ponteiros
     public void setAtt(String name, Struct root, Struct newData) {
 
         Struct current;
 
-        newData.name = name;
+        if (checkValidName(name) && root.level <= 98) {
+            newData.name = name;
+            newData.level = root.level + 1;
 
-        if (root.path.equals("/")) {
-            newData.path = root.path + name;
-        } else {
-            newData.path = root.path + "/" + name;
-        }
-
-        if (root.child == null) {
-            root.child = newData;
-        } else {
-            current = root.child;
-            if (current.next == null) {
-                if (current.name.compareTo(name) > 0) {
-                    // root -> *a -> b -> null
-                    root.child = newData;
-                    newData.next = current;
-                } else {
-                    // root -> a -> *b -> null
-                    current.next = newData;
-                }
+            if (root.path.equals("/")) { // se for a raiz
+                newData.path = root.path + name;
             } else {
-                current = findOrderByName(name, current);
-                // a -> b *c -> d -> null
-                newData.next = current.next;
-                current.next = newData;
+                newData.path = root.path + "/" + name;
             }
+
+            if (root.child == null) { // root.subpasta -> null
+                root.child = newData;
+            } else { // root.subpasta -> *
+                current = root.child; // atual = root.subpasta
+                if (current.next == null) { // se atual.próximo -> null
+                    if (!checkEqualName(name, current)) { // se atual.nome != nome
+                        if (current.name.compareTo(name) > 0) {
+                            // root -> *a -> b -> null
+                            root.child = newData;
+                            newData.next = current;
+                        } else {
+                            // root -> a -> *b -> null
+                            current.next = newData;
+                        }
+                    } else {
+                        if (current.getType().equals("folder")) {
+                            System.out.println("Não foi possível criar o diretório \"" + current.getName() + "\": arquivo existe");
+                        } else {
+                            System.out.println("Não foi possível criar o arquivo \"" + current.getName() + "\": arquivo existe");
+                        }
+                    }
+                } else {
+                    current = findOrderByName(name, current);
+                    if (!checkEqualName(name, current)) {
+                        // a -> b *c -> d -> null
+                        newData.next = current.next;
+                        current.next = newData;
+                    } else {
+                        if (current.getType().equals("folder")) {
+                            System.out.println("Não foi possível criar o diretório \"" + current.getName() + "\": arquivo existe");
+                        } else {
+                            System.out.println("Não foi possível criar o arquivo \"" + current.getName() + "\": arquivo existe");
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("Nome inválido!");
         }
     }
 

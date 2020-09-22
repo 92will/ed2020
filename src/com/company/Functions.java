@@ -8,7 +8,7 @@ public class Functions {
     public static void printFolders(Struct folder) {
 
         while (folder != null) {
-            System.out.print(folder.getName() + ":" + folder.getType() + ":" + folder.getPath() + " ");
+            System.out.print(folder.getName() + ":" + folder.getType() + ":" + folder.getPath() + ":" + folder.getLevel() + "    ");
             folder = folder.getNext();
         }
         System.out.println();
