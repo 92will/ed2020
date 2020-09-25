@@ -83,7 +83,7 @@ public class Struct {
     }
 
     public boolean checkValidName(String str) { // verifica se o nome é válido
-        return str.length() <= 50 && str.matches("(?i)\\D");
+        return str.length() <= 50 && str.matches("(?i)\\D*");
     }
 
     public boolean checkEqualName(String name, Struct folder) { // verifica igualdade de nomes

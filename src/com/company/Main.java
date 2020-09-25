@@ -55,7 +55,7 @@ public class Main {
                             break;
                         case 2:
                             // ls [-R ]:1 ou ls [path ]:1
-                            if (opt[1].equals("-R")) {
+                            if (opt[1].equalsIgnoreCase("-R")) {
                                 Functions.lsR(current);
                             } else {
                                 Functions.lsPath(opt[1], current);
@@ -63,7 +63,7 @@ public class Main {
                             break;
                         case 3:
                             // ls:0 [-R ]:1 [path ]:2
-                            if (opt[1].equals("-R")) {
+                            if (opt[1].equalsIgnoreCase("-R")) {
                                 Functions.lsRPath(opt[2], current);
                             } else {
                                 System.out.println("Comando incorreto. Tente \"ls [-R ] [path ]\"");
@@ -81,7 +81,7 @@ public class Main {
                             break;
                         case 3:
                             // search [-R ]:1 searchkey:2 ou search [path ]:1 searchkey:2
-                            if (opt[1].equals("-R")) {
+                            if (opt[1].equalsIgnoreCase("-R")) {
                                 Functions.searchR(opt[2], current);
                             } else {
                                 Functions.searchPath(opt[2], opt[1], current);
@@ -89,7 +89,7 @@ public class Main {
                             break;
                         case 4:
                             // search [-R ]:1 [path ]:2 searchkey:3
-                            if (opt[1].equals("-R")) {
+                            if (opt[1].equalsIgnoreCase("-R")) {
                                 Functions.searchRPath(opt[3], opt[2], current);
                             } else {
                                 System.out.println("Comando incorreto. Tente \"ls [-R ] [path ]\"");
