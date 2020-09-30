@@ -1,0 +1,145 @@
+#inicio de teste mkdir/touch
+
+#inserindo primeiro folder com estrutura vazia
+mkdir home
+#inserindo primeiro folder com estrutura não vazia
+mkdir boot
+#inserindo folder no final
+mkdir sys
+#inserindo folder no meio
+mkdir dev
+#ls de verificação
+ls
+#inserindo arquivo no inicio
+touch bin
+#inserindo arquivo no final
+touch var
+#inserindo arquivo no meio
+touch proc
+#ls de verificação
+ls
+#inserindo folders/arquivos com mesmo nome
+mkdir home
+touch home
+mkdir bin
+touch dev
+#ls de verificação
+ls
+#inserindo folders/arquivos com nome errado
+mkdir h0me
+touch home1
+mkdir 1bin
+touch 2
+mkdir dev/
+touch 2/e
+mkdir SYS
+touch sYs
+#ls de verificação
+ls
+#inserindo folders/arquivos com nome igual a 50
+mkdir abcabcabcxabcabcabcxabcabcabcxabcabcabcxabcabcabcx
+touch qbcabqabcxaqcabcabcxabcabcabcxabcabcabcxabcabcabcx
+#ls de verificação
+ls
+#inserindo folders/arquivos com nome maior que 50
+mkdir abcabcabcxabcabcabcxabcabcabcxabcabcabcxabcabcabcxp
+touch qbcabqabcxaqcabcabcxabcabcabcxabcabcabcxabcabcabcxp
+#ls de verificação
+ls
+
+#fim de teste mkdir/touch
+
+#inicio de teste mkdir/touch com path em folder
+
+#inserindo primeiro folder com estrutura vazia
+mkdir /home but
+#inserindo primeiro folder com estrutura não vazia
+mkdir /home boot
+#inserindo folder no final
+mkdir /home sys
+#inserindo folder no meio
+mkdir /home dev
+#ls path de verificação
+ls /home
+#inserindo arquivo no inicio
+touch /home bin
+#inserindo arquivo no final
+touch /home var
+#inserindo arquivo no meio
+touch /home proc
+#ls path de verificação
+ls /home
+#inserindo folders/arquivos com mesmo nome
+mkdir /home but
+touch /home but
+mkdir /home bin
+touch /home dev
+#ls path de verificação
+ls /home
+#inserindo folders/arquivos com nome errado
+mkdir /home h0me
+touch /home home1
+mkdir /home 1bin
+touch /home 2
+mkdir /home dev/
+touch /home 2/e
+mkdir /home SYS
+touch /home sYs
+#ls path de verificação
+ls /home
+#inserindo folders/arquivos com nome igual a 50
+mkdir /home abcabcabcxabcabcabcxabcabcabcxabcabcabcxabcabcabcx
+touch /home qbcabqabcxaqcabcabcxabcabcabcxabcabcabcxabcabcabcx
+#inserindo folders/arquivos com nome maior que 50
+mkdir /home abcabcabcxabcabcabcxabcabcabcxabcabcabcxabcabcabcxp
+touch /home qbcabqabcxaqcabcabcxabcabcabcxabcabcabcxabcabcabcxp
+#ls path de verificação
+ls /home
+#inserindo com path errado
+mkdir /eita tes
+touch /eita test
+mkdir /boote tes
+touch /boote test
+
+#teste mkdir/touch com path em file
+mkdir /bin folder
+touch /bin file
+#ls path de verificação
+ls /bin
+
+#inicio de teste mkdir/touch com path/path em folder
+mkdir /home/boot um
+mkdir /home/boot dois
+touch /home/boot tres
+touch /home/boot quatro
+mkdir /home/dev cinco
+mkdir /home/dev seis
+touch /home/dev sete
+touch /home/dev oito
+#ls path/path de verificação
+ls /home/boot
+ls /home/dev
+
+#teste ls -R na raiz
+ls -R
+#teste ls -R path
+ls -R /home
+ls -R /home/boot
+ls -R /home/boot/um
+
+#teste de search
+search a
+search o
+#search key inexistente
+search l
+#search -R key
+search -R a
+search -R o
+#search path key
+search /home a
+search /home o
+#search com path inexistente
+search /eita e
+#search -R path key
+search -R /home o
+search -R /home/dev o
