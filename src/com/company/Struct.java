@@ -83,15 +83,15 @@ public class Struct {
     }
 
     public boolean checkValidName(String str) { // verifica se o nome é válido
-        return str.length() <= 50 && str.matches("(?i)\\D*");
+        return str.length() <= 50 && str.matches("(?i)[a-z]*");
     }
 
     public boolean checkEqualName(String name, Struct folder) { // verifica igualdade de nomes
 
         if (folder.next == null) {
-            return folder.name.equals(name);
+            return folder.name.equalsIgnoreCase(name);
         } else {
-            return folder.name.equals(name) || folder.next.name.equals(name);
+            return folder.name.equalsIgnoreCase(name) || folder.next.name.equalsIgnoreCase(name);
         }
     }
 
@@ -125,24 +125,20 @@ public class Struct {
                             current.next = newData;
                         }
                     } else {
-                        if (current.getType().equals("folder")) {
-                            System.out.println("Não foi possível criar o diretório \"" + current.getName() + "\": arquivo existe");
-                        } else {
-                            System.out.println("Não foi possível criar o arquivo \"" + current.getName() + "\": arquivo existe");
-                        }
-                    }
+                        System.out.println("Não foi possível executar o comando : nome existe");                    }
                 } else {
                     current = findOrderByName(name, current);
                     if (!checkEqualName(name, current)) {
-                        // a -> b *c -> d -> null
-                        newData.next = current.next;
-                        current.next = newData;
-                    } else {
-                        if (current.getType().equals("folder")) {
-                            System.out.println("Não foi possível criar o diretório \"" + current.getName() + "\": arquivo existe");
+                        if (current.name.compareTo(name) > 0) {
+                            root.child = newData;
+                            newData.next = current;
                         } else {
-                            System.out.println("Não foi possível criar o arquivo \"" + current.getName() + "\": arquivo existe");
+                            // a -> b *c -> d -> null
+                            newData.next = current.next;
+                            current.next = newData;
                         }
+                    } else {
+                            System.out.println("Não foi possível executar o comando : nome existe");
                     }
                 }
             }
@@ -164,11 +160,14 @@ public class Struct {
 
         if (!path.equals("noPath")) {
             rootFolder = findFolderByPath(path, rootFolder);
-
-            if (rootFolder != null && rootFolder.type.equals("folder")) {
-                newData.setAtt(name, rootFolder, newData);
+            if (rootFolder == null) {
+                System.out.println("Path não encontrado.");
             } else {
-                System.out.println("Arquivo não é um diretório.");
+                if (rootFolder.type.equals("folder")) {
+                    newData.setAtt(name, rootFolder, newData);
+                } else {
+                    System.out.println("Arquivo não é um diretório.");
+                }
             }
         } else {
             newData.setAtt(name, rootFolder, newData);

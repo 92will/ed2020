@@ -8,7 +8,7 @@ public class Functions {
     public static void printFolders(Struct folder) {
 
         while (folder != null) {
-            System.out.print(folder.getName() + ":" + folder.getType() + ":" + folder.getPath() + ":" + folder.getLevel() + "    ");
+            System.out.print(folder.getName() + "    ");
             folder = folder.getNext();
         }
         System.out.println();
@@ -27,15 +27,31 @@ public class Functions {
     // imprime recursivamente subpastas de uma pasta
     public static void lsR(Struct folder) {
 
-        if (folder.getChild() != null) { // folder
-            ls(folder); // a -> b -> c
-            folder = folder.getChild(); // folder = a
-            lsR(folder);
-        } else if (folder.getNext() != null) {
-            folder = folder.getNext();
-            lsR(folder);
-        } else {
+        if (folder.getChild() == null) {
             System.out.print("");
+        }
+        if (folder.getChild() != null) {
+            System.out.println(folder.getPath() + ":");
+            ls(folder);
+            lsR(folder.getChild());
+        }
+        if (folder.getNext() != null) {
+            lsR(folder.getNext());
+        }
+    }
+
+    public static void lsRToPath(Struct folder, int level) {
+
+        if (folder.getChild() == null) {
+            System.out.print("");
+        }
+        if (folder.getChild() != null) {
+            System.out.println(folder.getPath() + ":");
+            ls(folder);
+            lsR(folder.getChild());
+        }
+        if (folder.getNext() != null && folder.getLevel() != level) {
+            lsR(folder.getNext());
         }
     }
 
@@ -55,7 +71,7 @@ public class Functions {
         if (folder == null) {
             System.out.println("Path nao encontrado.");
         } else {
-            lsR(folder);
+            lsRToPath(folder, folder.getLevel());
         }
     }
 
@@ -87,15 +103,29 @@ public class Functions {
 
     public static void searchR(String key, Struct folder) {
 
+        if (folder.getChild() == null) {
+            System.out.print("");
+        }
         if (folder.getChild() != null) { // folder
             search(key, folder); // a -> b -> c
-            folder = folder.getChild(); // folder = a
-            searchR(key, folder);
-        } else if (folder.getNext() != null) {
-            folder = folder.getNext();
-            searchR(key, folder);
-        } else {
+            searchR(key, folder.getChild());
+        }
+        if (folder.getNext() != null) {
+            searchR(key, folder.getNext());
+        }
+    }
+
+    public static void searchRToPath(String key, Struct folder, int level) {
+
+        if (folder.getChild() == null) {
             System.out.print("");
+        }
+        if (folder.getChild() != null) { // folder
+            search(key, folder); // a -> b -> c
+            searchR(key, folder.getChild());
+        }
+        if (folder.getNext() != null && folder.getLevel() != level) {
+            searchR(key, folder.getNext());
         }
     }
 
@@ -115,9 +145,7 @@ public class Functions {
         if (folder == null) {
             System.out.println("Path nao encontrado.");
         } else {
-            searchR(key, folder);
+            searchRToPath(key, folder, folder.getLevel());
         }
     }
-
-
 }
